@@ -1,10 +1,191 @@
-ShadeNet Cipher: Secure TCP/IP Communication (C# / .NET)ShadeNet Cipher is a command-line application built in C# (.NET) for demonstrating and studying asynchronous TCP/IP sockets. It features a Server (ShadeNetServer) that can handle multiple connections and a Client (ShadeNetClient) for connecting and engaging in basic console-based chat.🚀 PrerequisitesTo compile and run this application, you must have the .NET SDK installed. This project targets .NET 8.0.💻 Installation Guide for Linux (Debian/Ubuntu)Follow these steps in your terminal to install the latest .NET 8 SDK on Debian/Ubuntu systems:Install Required Dependencies:sudo apt update
+# ShadeNet Cipher  
+**Secure TCP/IP Communication (C# / .NET)**
+---
+>[WARNING]
+>Privacy Notice & Responsible Use
+>ShadeNet Cipher is designed to operate without persistent storage:
+>• No chat logs are saved.
+>• No message history is retained after the server shuts down.
+>• The server actively monitors for abnormal or unauthorized interception attempts and will display warnings if such activity is detected.
+>This behavior aims to provide ephemeral, privacy-focused communication, suitable for temporary and disposable chat sessions.
+>However, privacy does not remove responsibility.
+>Users must follow all applicable laws and use the software ethically. ShadeNet Cipher is not intended for illegal activity, evasion of law enforcement, or harmful behavior of any kind.
+>By using this tool, you agree that all responsibility for its usage lies solely with you (the user). The creator(s) are not liable for any misuse.
+>Use ShadeNet Cipher responsibly, ethically, and within legal boundaries.
+
+---
+
+
+ShadeNet Cipher is a command-line application built in **C# (.NET 8)** for studying and demonstrating asynchronous TCP/IP sockets.  
+The project includes:
+
+- **ShadeNetServer** — handles multiple simultaneous client connections  
+- **ShadeNetClient** — connects to the server and provides a console-based chat  
+
+Perfect for networking study and experimentation.
+
+---
+
+## 🚀 Prerequisites
+
+You must have **.NET SDK 8.0** installed to build and run this project.
+
+---
+
+# 💻 Installation Guide for Linux (Debian/Ubuntu)
+
+Run the following commands in your terminal:
+
+### 1. Install basic dependencies
+```bash
+sudo apt update
 sudo apt install -y curl
-Download and Install the Microsoft Package Signing Key:sudo apt install -y ca-certificates gnupg
+````
+
+### 2. Install certificates and GnuPG
+
+```bash
+sudo apt install -y ca-certificates gnupg
+```
+
+### 3. Download and install Microsoft’s official package signing key
+
+```bash
 sudo gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg
-curl -fsSL [https://packages.microsoft.com/keys/microsoft.asc](https://packages.microsoft.com/keys/microsoft.asc) | sudo tee /etc/apt/keyrings/microsoft.asc > /dev/null
-Add the Microsoft Package Repository:echo "deb [arch=$(dpkg --print-arch) signed-by=/etc/apt/keyrings/microsoft.gpg] [https://packages.microsoft.com/ubuntu/$(lsb_release](https://packages.microsoft.com/ubuntu/$(lsb_release) -rs)/prod $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
-Install the .NET 8.0 SDK:sudo apt update
+curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+    | sudo tee /etc/apt/keyrings/microsoft.asc > /dev/null
+```
+
+### 4. Add the Microsoft package repository
+
+```bash
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/microsoft.gpg] \
+https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod \
+$(lsb_release -cs) main" \
+| sudo tee /etc/apt/sources.list.d/microsoft-prod.list
+```
+
+### 5. Install the .NET 8 SDK
+
+```bash
+sudo apt update
 sudo apt install -y dotnet-sdk-8.0
-Verification: Run dotnet --version to confirm installation (should return 8.0.x).🛠️ Installation Guide for WindowsDownload and run the official installer for the .NET SDK 8.0 from the Microsoft website.🚀 Local Execution GuideYou will need two terminal/command prompt windows to run the Server and the Client simultaneously.1. Start the Server (ShadeNetServer)The Server must be started first.StepCommand (Linux, PowerShell, CMD)1. Navigate to the Server directorycd ShadeNetCipher/ShadeNetServer2. Run the Server applicationdotnet runWhen prompted, enter the Listening IP and the Port.For Local Use: Enter 127.0.0.1 (or 0.0.0.0) and your desired port, e.g., 5000.2. Start the Client (ShadeNetClient)Open a second terminal window to run the Client.StepCommand (Linux, PowerShell, CMD)1. Navigate to the Client directorycd ShadeNetCipher/ShadeNetClient2. Run the Client applicationdotnet runThe Client will ask for the Server IP, Port, and a Nickname.For Local Use: Use the same IP and Port defined in the Server setup (e.g., IP: 127.0.0.1, Port: 5000).🌐 Remote Connection and SharingTo allow external users to connect to your server over the internet, several network configurations are mandatory.🔑 A. Connection ParametersServer Listening IP: When starting the Server, always use 0.0.0.0 as the Listening IP to bind to all available network interfaces.Client Connection IP: Remote Clients must use the Public IP Address (External IP) of the machine running the Server. You can usually find this by searching "What is my IP" on Google.Port: The Client must connect using the exact Port number configured on the Server.🛡️ B. Network Configuration (Firewall & Router)1. Operating System Firewall (Windows/Linux):The chosen port (e.g., 5000) must be open in your OS firewall.Windows: Create an inbound rule to allow TCP traffic on the port for the Server executable.Linux (UFW Example): Allow the port using a utility like UFW:sudo ufw allow 5000/tcp
-2. Port Forwarding (NAT Configuration):If the Server is behind a home or office router, you MUST configure Port Forwarding.Action: Log into your router's administration panel (usually via a web browser).Rule: Create a rule to redirect all incoming TCP traffic on the chosen external port (e.g., 5000) to the Internal (Local) IP Address of the machine running the Server.⚠️ CGNAT Warning (Crucial for Remote Hosting)If your Internet Service Provider (ISP) uses Carrier-Grade NAT (CGNAT), your Public IP is shared with other customers, and you will not be able to successfully configure Port Forwarding.Solution: To host a public server, you must have a truly dedicated Public IP. This often requires:Contacting your ISP to request a dedicated IP (may incur costs).Using a Virtual Private Server (VPS) or Cloud Service with a fixed, publicly accessible IP address.
+```
+
+### 6. Verify installation
+
+```bash
+dotnet --version
+```
+
+---
+
+# 🪟 Installation Guide for Windows
+
+Download and run the official .NET SDK 8.0 installer:
+🔗 [https://dotnet.microsoft.com/en-us/download/dotnet/8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+
+---
+
+# 🚀 Running the Project Locally
+
+You will need **two terminal windows**—one for the server and one for the client.
+
+---
+
+## 1. Start the Server (ShadeNetServer)
+
+```bash
+cd ShadeNetCipher/ShadeNetServer
+dotnet run
+```
+
+The server will ask for:
+
+* Listening IP
+* Port
+
+For local testing, use:
+
+* **IP:** `127.0.0.1` or `0.0.0.0`
+* **Port:** `5000` (or any other)
+
+---
+
+## 2. Start the Client (ShadeNetClient)
+
+```bash
+cd ShadeNetCipher/ShadeNetClient
+dotnet run
+```
+
+The client will ask for:
+
+* Server IP
+* Port
+* Nickname
+
+For local use, enter the same IP and port used in the server.
+
+---
+
+# 🌐 Remote Access / Internet Hosting
+
+To allow others to connect to your ShadeNet server over the internet, you must configure your network properly.
+
+---
+
+## 🔑 A. Connection Parameters
+
+* **Server Listening IP:** Always use `0.0.0.0` to bind to all interfaces.
+* **Client Connection IP:** Clients must use your **Public IP Address**.
+* **Port:** Must match the port configured in the server.
+
+---
+
+## 🛡️ B. Network Configuration (Firewall & Port Forwarding)
+
+### 1. Allow the port in your OS firewall
+
+**Windows:**
+Create an **Inbound Rule** for the port (TCP).
+
+**Linux (UFW example):**
+
+```bash
+sudo ufw allow 5000/tcp
+```
+
+### 2. Configure Port Forwarding on your router
+
+Inside your router’s administration panel:
+
+* External Port: `5000`
+* Internal Port: `5000`
+* Protocol: **TCP**
+* Destination IP: Local IP of the machine running the server
+
+---
+
+# ⚠️ CGNAT Warning
+
+If your ISP uses **Carrier-Grade NAT**, you **cannot** port-forward or host a public server from home.
+
+Common CGNAT signs:
+
+* Router WAN IP differs from your Public IP
+* You share your public IP with other users
+
+### Solutions:
+
+* Request a **dedicated public IP** from your ISP
+* Use a **VPS** or cloud provider with a real public IP
+  (DigitalOcean, AWS, Oracle Cloud, etc.)
+
+---
+
+# 📜 License
+
+Add your preferred license here (MIT, Apache 2.0, GPL, etc.).
+
+---
